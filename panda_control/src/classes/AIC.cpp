@@ -15,15 +15,15 @@
   AIC::AIC(int whichRobot){
 
     if (whichRobot == 1){
-      // Initialize publishers on the topics /robot1/panda_joint*_controller/command for the joint efforts
-      tauPub1 = nh.advertise<std_msgs::Float64>("/robot1/panda_joint1_controller/command", 20);
-      tauPub2 = nh.advertise<std_msgs::Float64>("/robot1/panda_joint2_controller/command", 20);
-      tauPub3 = nh.advertise<std_msgs::Float64>("/robot1/panda_joint3_controller/command", 20);
-      tauPub4 = nh.advertise<std_msgs::Float64>("/robot1/panda_joint4_controller/command", 20);
-      tauPub5 = nh.advertise<std_msgs::Float64>("/robot1/panda_joint5_controller/command", 20);
-      tauPub6 = nh.advertise<std_msgs::Float64>("/robot1/panda_joint6_controller/command", 20);
-      tauPub7 = nh.advertise<std_msgs::Float64>("/robot1/panda_joint7_controller/command", 20);
-      sensorSub = nh.subscribe("/robot1/joint_states", 1, &AIC::jointStatesCallback, this);
+      // Initialize publishers on the topics /panda_joint*_controller/command for the joint efforts
+      tauPub1 = nh.advertise<std_msgs::Float64>("/panda_joint1_controller/command", 20);
+      tauPub2 = nh.advertise<std_msgs::Float64>("/panda_joint2_controller/command", 20);
+      tauPub3 = nh.advertise<std_msgs::Float64>("/panda_joint3_controller/command", 20);
+      tauPub4 = nh.advertise<std_msgs::Float64>("/panda_joint4_controller/command", 20);
+      tauPub5 = nh.advertise<std_msgs::Float64>("/panda_joint5_controller/command", 20);
+      tauPub6 = nh.advertise<std_msgs::Float64>("/panda_joint6_controller/command", 20);
+      tauPub7 = nh.advertise<std_msgs::Float64>("/panda_joint7_controller/command", 20);
+      sensorSub = nh.subscribe("/joint_states", 1, &AIC::jointStatesCallback, this);
       // Publisher for the free-energy and sensory prediction errors
       IFE_pub = nh.advertise<std_msgs::Float64>("panda_free_energy", 10);
       thresholdSPE_pub = nh.advertise<std_msgs::Float64>("panda_threshold_SPE", 10);
@@ -63,8 +63,8 @@
   {
     // Save joint values
     for( int i = 0; i < 7; i++ ) {
-      jointPos(i) = msg->position[i];
-      jointVel(i) = msg->velocity[i];
+      jointPos(i) = msg->position[i + 1];
+      jointVel(i) = msg->velocity[i + 1];
     }
     // If this is the first time we read the joint states then we set the current beliefs
     if (dataReceived == 0){

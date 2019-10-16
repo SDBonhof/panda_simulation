@@ -4,12 +4,12 @@
 
 
         <!-- Load Gazebo lib and set the robot namespace -->
-        <gazebo>
+<!--         <gazebo>
             <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-                <!-- <robotNamespace>/${robot_name}</robotNamespace> -->
+                <robotNamespace>/${robot_name}</robotNamespace>
  		             <legacyModeNS>false</legacyModeNS>
             </plugin>
-        </gazebo>
+        </gazebo> -->
 
         <transmission name="${robot_name}_tran_1">
             <type>transmission_interface/SimpleTransmission</type>
