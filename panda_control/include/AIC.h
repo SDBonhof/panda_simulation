@@ -29,6 +29,7 @@
 #include <iostream>
 #include "generativeModel.h"
 #include <stdlib.h>
+#include <ros/node_handle.h>
 
 // Class AIC to hanle the subscribers and the publishers for the active inference controller
 class AIC
@@ -61,6 +62,8 @@ public:
   // Methof for recovery from a fault
   void recoveryCameraFault();
 
+  void setGoalCallback(const std_msgs::Float64::ConstPtr& msg);
+
 private:
 
   // Variances associated with the active inference controller and the confidence relative to sensory input and beliefs
@@ -84,7 +87,7 @@ private:
   // Publishers for joint torques to the topics /panda_joint*_controller/command, the free-energy and a threshold for it
   ros::Publisher tauPub1, tauPub2, tauPub3, tauPub4, tauPub5, tauPub6, tauPub7, IFE_pub, thresholdSPE_pub;
   // Subscriber for proprioceptive sensors (i.e. from joint_states) and camera (i.e. aruco_single/pose)
-  ros::Subscriber sensorSub;
+  ros::Subscriber sensorSub, goalSub;
   // Support variables to contain the torques for the joints
   std_msgs::Float64 tau1, tau2, tau3, tau4, tau5, tau6, tau7, F, thresholdSPE;
   // Values for direct kinematics computation using DH parameters
@@ -109,6 +112,10 @@ private:
   int faultDetected, recovered;
   // Camera distoriotn coefficients
   double K1, K2, K3, rDist;
+
+  double currentArmGoal;
+
+  Eigen::Matrix<double, 7, 1>  mu_dRight, mu_dGrab, mu_dCenter, mu_dRelease, mu_dDrop, mu_dCratePreDrop, mu_dCrateDrop, mu_dHandshakeDown, mu_dHandshakeUp, mu_dHandshakeDownDown;
 
 };
 
